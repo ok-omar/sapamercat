@@ -11,6 +11,16 @@ public class Alimentacio extends Producte{
         this.dataCaducitat = dataCaducitat;
     }
 
+    // Getter
+    public String getDataCaducitat() {
+        return dataCaducitat;
+    }
+
+    // Setter
+    public void setDataCaducitat(String dataCaducitat) {
+        this.dataCaducitat = dataCaducitat;
+    }
+
     @Override
     public double calcularPreu() {
         int diesCaducitat = calcularDiesCaducitat(dataCaducitat);
@@ -31,4 +41,6 @@ public class Alimentacio extends Producte{
 
         return diesCaducitat;
     }
+
+
 }
