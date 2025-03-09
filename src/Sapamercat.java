@@ -4,14 +4,13 @@ import model.Producte;
 import model.Textil;
 import view.View;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Sapamercat {
+    static ArrayList<Producte> cart = new ArrayList<Producte>();
     public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        ArrayList<Producte> cart = new ArrayList<Producte>();
+        Map<String, Integer> hashmapCart = null;
         while (true){
             View.displayIniciMenu();
             int input = getNumeroValid();
@@ -20,13 +19,16 @@ public class Sapamercat {
                     ///
                     break;
                 case 2:
-                    cart = getProductes();
+                    getProductes();
+                    hashmapCart = convertCartToHashmap(cart);
                     break;
                 case 3:
-                    ///
+                    if (hashmapCart == null) System.out.println("No tens cap producte al carret!");
+                    else View.printReciept(hashmapCart, cart);
                     break;
                 case 4:
-                    ///
+                    if (hashmapCart == null) System.out.println("El carret està buit!");
+                    else View.showCart(hashmapCart);
                     break;
                 case 0:
                     return;
@@ -39,11 +41,13 @@ public class Sapamercat {
 
     }
 
-    public static ArrayList<Producte> getProductes(){
+    public static void getProductes(){
         while (true){
-            ArrayList<Producte> cart = new ArrayList<Producte>();
+
             View.displayProducteMenu();
             int input = getNumeroValid();
+            scanner.nextLine();
+
             switch (input){
                 case 1:
                     cart.add(getAlimentacio());
@@ -55,7 +59,7 @@ public class Sapamercat {
                     cart.add(getElectronica());
                     break;
                 case 0:
-                    return cart;
+                    return;
             }
         }
 
@@ -72,6 +76,7 @@ public class Sapamercat {
         String nom = scanner.nextLine();
         System.out.print("Preu: ");
         int preu = scanner.nextInt();
+        scanner.nextLine();  // Consumir la línia buida
         System.out.print("Codi de barres: ");
         String barcode = scanner.nextLine();
         System.out.print("Data de caducitat (dd/mm/yyyy): ");
@@ -90,6 +95,7 @@ public class Sapamercat {
         String nom = scanner.nextLine();
         System.out.print("Preu: ");
         int preu = scanner.nextInt();
+        scanner.nextLine();  // Consumir la línia buida
         System.out.print("Composicio: ");
         String composicio = scanner.nextLine();
         System.out.print("Codi de barres: ");
@@ -109,8 +115,10 @@ public class Sapamercat {
         String nom = scanner.nextLine();
         System.out.print("Preu: ");
         int preu = scanner.nextInt();
+        scanner.nextLine();  // Consumir la línia buida
         System.out.print("Garantia (dies): ");
         int garantia = scanner.nextInt();
+        scanner.nextLine();
         System.out.print("Codi de barres: ");
         String barcode = scanner.nextLine();
 
@@ -135,6 +143,14 @@ public class Sapamercat {
                 scanner.next(); // Elimininar invalid input
             }
         }
+    }
+
+    public static Map<String, Integer> convertCartToHashmap(ArrayList<Producte> cart){
+        Map<String, Integer> convertedCart = new HashMap<>();
+        for(Producte producte : cart){
+            convertedCart.put(producte.getNom(), convertedCart.getOrDefault(producte.getNom(), 0) + 1);
+        }
+        return convertedCart;
     }
 
 
