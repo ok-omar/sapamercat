@@ -1,4 +1,5 @@
 package view;
+import model.Model;
 import model.Producte;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class View {
         int qt;
         double price, total = 0;
         for (Map.Entry<String, Integer> producte :  hashmapCart.entrySet()){
-            price = getProductPrice(producte.getKey(), cart);
+            price = Model.getProductPrice(producte.getKey(), cart);
             qt = producte.getValue();
             System.out.printf("%-10s %d %10.2f %10.2f%n", producte.getKey(), qt, price, (price * qt));
             total = total + price * qt;
@@ -67,16 +68,5 @@ public class View {
 
     }
 
-    /**
-     * Funcio per buscar el preu d'un producte
-     * @param nom El nom del producte que volem saber el seu preu
-     * @param cart L'array list de tots els productes que tenim
-     * @return El preu del producte
-     */
-    private static double getProductPrice(String nom, ArrayList<Producte> cart){
-        for (Producte product : cart){
-            if (nom.equals(product.getNom())) return product.calcularPreu();
-        }
-        return -1;
-    }
+
 }
