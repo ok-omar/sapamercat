@@ -24,7 +24,7 @@ public class Alimentacio extends Producte{
     @Override
     public double calcularPreu() {
         int diesCaducitat = calcularDiesCaducitat(dataCaducitat);
-        return (preu - preu * ((1 / diesCaducitat) + 1) + (preu * 0.1));
+        return preu - preu * (((double) 1 / diesCaducitat) + 1) + (preu * 0.1);
     }
 
     private int calcularDiesCaducitat(String data){
