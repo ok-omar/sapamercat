@@ -2,14 +2,62 @@ import model.Alimentacio;
 import model.Electronica;
 import model.Producte;
 import model.Textil;
+import view.View;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Sapamercat {
     public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
+        ArrayList<Producte> cart = new ArrayList<Producte>();
+        while (true){
+            View.displayIniciMenu();
+            int input = getNumeroValid();
+            switch (input){
+                case 1:
+                    ///
+                    break;
+                case 2:
+                    cart = getProductes();
+                    break;
+                case 3:
+                    ///
+                    break;
+                case 4:
+                    ///
+                    break;
+                case 0:
+                    return;
+            }
+
+        }
 
 
+
+
+    }
+
+    public static ArrayList<Producte> getProductes(){
+        while (true){
+            ArrayList<Producte> cart = new ArrayList<Producte>();
+            View.displayProducteMenu();
+            int input = getNumeroValid();
+            switch (input){
+                case 1:
+                    cart.add(getAlimentacio());
+                    break;
+                case 2:
+                    cart.add(getTextil());
+                    break;
+                case 3:
+                    cart.add(getElectronica());
+                    break;
+                case 0:
+                    return cart;
+            }
+        }
 
     }
 
@@ -68,6 +116,25 @@ public class Sapamercat {
 
 
         return new Electronica(preu, nom, barcode, garantia);
+    }
+
+    private static int getNumeroValid() {
+        while (true) {
+            try {
+                int number = scanner.nextInt();
+
+                // Verificar si el numbero en el rang 0-4
+                if (number >= 0 && number <= 4) {
+                    return number;
+                } else {
+                    System.out.println("Numero invalid, introduiex un numero en el rang (0-4)");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("El valor ha de ser un numbero");
+                scanner.next(); // Elimininar invalid input
+            }
+        }
     }
 
 
