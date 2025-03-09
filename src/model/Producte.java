@@ -1,6 +1,6 @@
 package model;
 
-public abstract  class Producte {
+public abstract  class Producte implements Comparable<Producte>{
         protected float preu;
         protected String nom;
         protected String barcode;
@@ -12,6 +12,12 @@ public abstract  class Producte {
     }
 
     public abstract double calcularPreu();
+
+    @Override
+    public int compareTo(Producte altreProducte) {
+        return nom.compareTo(altreProducte.getNom());
+    }
+
 
     // Getters
 
@@ -29,7 +35,7 @@ public abstract  class Producte {
 
     // Setters
 
-    public void setPreu(int preu) {
+    public void setPreu(float preu) {
         this.preu = preu;
     }
 
