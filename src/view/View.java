@@ -1,4 +1,6 @@
 package view;
+import model.Alimentacio;
+import model.DataCaducitatComparator;
 import model.Model;
 import model.Producte;
 import java.time.LocalDate;
@@ -32,13 +34,25 @@ public class View {
         System.out.println("3) Electrònica");
         System.out.println("0) Tornar");
     }
+    /**
+     * Funcio per mostrar el Menu de Gestió Magatzem i Compres
+     */
+    public static void displayManagementMenu(){
+        System.out.println("--------------------------------");
+        System.out.println("-- Gestió Magatzem i Compres ---");
+        System.out.println("--------------------------------");
+        System.out.println("1) Caducitat");
+        System.out.println("2) Tiquets de compra");
+        System.out.println("3) Composició textil");
+        System.out.println("0) Tornar");
+    }
 
     /**
      * Funcio per mostrar el Carret
      * @param cart El carret com a HashMap
      */
     public static void showCart(Map<String, Integer> cart){
-        System.out.println("Carret");
+        System.out.println("Carret:");
         for (Map.Entry<String, Integer> producte :  cart.entrySet()){
             System.out.println(producte.getKey() + " --> " + producte.getValue());
         }
@@ -58,14 +72,27 @@ public class View {
         int qt;
         double price, total = 0;
         for (Map.Entry<String, Integer> producte :  hashmapCart.entrySet()){
-            price = Model.getProductPrice(producte.getKey(), cart);
+            price = Model.getProductPrice(producte.getKey());
             qt = producte.getValue();
-            System.out.printf("%-10s %d %10.2f %10.2f%n", producte.getKey(), qt, price, (price * qt));
+            System.out.printf("%-20s %d %10.2f %10.2f%n", producte.getKey(), qt, price, (price * qt));
             total = total + price * qt;
         }
         System.out.println("-------------------------------");
         System.out.printf("Total:%10.2f%n", total);
 
+    }
+
+    /**
+     * Funcio per mostrar a l'usuari els productes al carret en funcio de la caducitat
+     * @param cart Els productes per mostrar
+     */
+    public static void printCaducitat(ArrayList<Producte> cart){
+        cart.sort(new DataCaducitatComparator());
+        cart.forEach(producte -> {
+            System.out.printf("Nom: %-20s", producte.getNom());
+            if (producte instanceof Alimentacio) System.out.printf("Caducitat: %-10s%n", ((Alimentacio) producte).getDataCaducitat());
+            else System.out.println();
+        });
     }
 
 
