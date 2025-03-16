@@ -11,23 +11,14 @@ public class Model {
     /**
      * Funcio per convertir el carret a hashmap
      */
-    public static void convertCartToHashmap(){
+    public static void convertCartToHashmap() {
+        // Buidar el map
+        convertedCart.clear();
 
-        for(Producte producte : cart){
-            convertedCart.put(producte.getNom(), convertedCart.getOrDefault(producte.getNom(), 0) + 1);
+        for (Producte producte : cart) {
+            // Utilitzar el barcode com a key, y la qt com a value
+            convertedCart.put(producte.getBarcode(), convertedCart.getOrDefault(producte.getBarcode(), 0) + 1);
         }
-    }
-
-    /**
-     * Funcio per buscar el preu d'un producte
-     * @param nom El nom del producte que volem saber el seu preu
-     * @return El preu del producte
-     */
-    public static double getProductPrice(String nom){
-        for (Producte product : cart){
-            if (nom.equals(product.getNom())) return product.calcularPreu();
-        }
-        return -1;
     }
 
     public static void guardarTicket(){
