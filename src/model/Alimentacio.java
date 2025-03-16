@@ -12,8 +12,15 @@ public class Alimentacio extends Producte{
     }
 
     // Getter
-    public String getDataCaducitat() {
-        return dataCaducitat;
+    public LocalDate getDataCaducitat() {
+        String[] dataStrValues = dataCaducitat.split("/");
+        int[] dataIntValues =new int [3];
+        for (int i = 0; i < dataStrValues.length; i++){
+            dataIntValues[i] = Integer.parseInt(dataStrValues[i]);
+        }
+
+        return LocalDate.of(dataIntValues[2], dataIntValues[1], dataIntValues[0]);
+
     }
 
     // Setter
