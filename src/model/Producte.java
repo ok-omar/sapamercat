@@ -15,8 +15,18 @@ public abstract  class Producte implements Comparable<Producte>{
 
     @Override
     public int compareTo(Producte altreProducte) {
-        return nom.compareTo(altreProducte.getNom());
+        // Comparar pel nom
+        int nameComparison = nom.compareTo(altreProducte.getNom());
+
+        // Si els noms no son iguals, retorna el resultat
+        if (nameComparison != 0) {
+            return nameComparison;
+        }
+
+        // Si els noms son iguals, compara pel codi de barres
+        return barcode.compareTo(altreProducte.getBarcode());
     }
+
 
 
     // Getters
