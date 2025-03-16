@@ -2,7 +2,7 @@ package model;
 import java.util.*;
 
 public class Model {
-
+    private static final int MAX_PRODUCTES = 100;
     private static LinkedList<ArrayList<Producte>> registres = new LinkedList<>();
     private static ArrayList<Producte> cart = new ArrayList<Producte>();
 
@@ -30,8 +30,10 @@ public class Model {
         cart.clear();
     }
 
-    public static void addToCart(Producte p){
-        cart.add(p);
+    public static void addToCart(Producte p) throws LimitProductesException {
+        if (cart.size() >= MAX_PRODUCTES){
+            throw new LimitProductesException(cart.size());
+        } else cart.add(p);
     }
 
     public static boolean cartLimitReached(){
