@@ -58,6 +58,19 @@ public class Model {
 
     }
 
+    /**
+     * Funcio per buscar un producte pel seu codi de barres
+     * @param barcode codi de barres del producte
+     * @return El nom del producte si el troba
+     */
+    public static String getProductByBarcode(String barcode) {
+        return cart.stream()
+                .filter(product -> product.getBarcode().equals(barcode)) // Filtrar per codi de barres
+                .map(Producte::getNom) // Obtenir el nom del producte
+                .findFirst() // Obtenir el primer producte
+                .orElse("Producte no trobat"); // retorna "Producte no trobat" si no troba el producte
+    }
+
 
 
 }
