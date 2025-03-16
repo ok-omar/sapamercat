@@ -70,15 +70,19 @@ public class Sapamercat {
             switch (input){
                 case 1:
                     // 1.1 Caducidad
-                    ArrayList<Producte> duplicateCart = new ArrayList<>(Model.getCart());
-                    View.printCaducitat(duplicateCart);
+                    ArrayList<Producte> caducitatCart = new ArrayList<>(Model.getCart());
+                    View.printCaducitat(caducitatCart);
                     break;
                 case 2:
-                    //1.2 Guardar Ticket de compra
+                    // 1.2 Guardar Ticket de compra
                     Model.guardarTicket();
+                    System.out.println("---------------------------------------------");
+                    System.out.println("        Ticket guardat correctament! ");
+                    System.out.println("---------------------------------------------");
                     break;
                 case 3:
-                    //
+                    // 1.3 Composició textil
+                    View.printTextil(Model.getCart());
                     break;
                 case 0:
                     return;
@@ -99,38 +103,22 @@ public class Sapamercat {
             // Agafar l'input de l'usuari
             int input = getNumeroValid();
 
-            // Un Producte (textil) temporal per verificar si ja existeix al carro per evitar duplicats
-            Producte t;
-            boolean duplicate;
+
             scanner.nextLine();
 
             // Switch case per cridar la funcio corresponent al tipus de producte que l'usuari vol introduir
             switch (input){
                 case 1:
                     // Afegir un producte tipus Alimentacio al carret
-                    Model.addToCart(getAlimentacio());
-
+                    addIfApplicable(getAlimentacio());
                     break;
                 case 2:
                     // Agafar un producte tipus Textil
-                    t = getTextil();
-
-                    // Verificar si el producte introduit ja existeix al carret
-                    duplicate = false;
-                    for(Producte p : Model.getCart()){
-                        if (p.getBarcode().equals(t.getBarcode())) {
-                            duplicate = true;
-                            break;
-                        }
-                    }
-                    // Si no existeix, afegir el textil al carret,
-                    if (!duplicate) Model.addToCart(t);
-                    // Si es un duplicat, avisar l'usuari
-                    else System.out.println("Textil Duplicat!");
+                    addIfApplicable(getTextil());
                     break;
                 case 3:
                     // Afegir un producte tipus Electronica al carret
-                    Model.addToCart(getElectronica());
+                    addIfApplicable(getElectronica());
                     break;
                 case 0:
                     return;
@@ -217,6 +205,16 @@ public class Sapamercat {
                 scanner.next(); // Elimininar invalid input
             }
         }
+    }
+
+    private static void addIfApplicable(Producte t){
+        // Verificar si el producte introduit ja existeix al carret
+        boolean duplicate = Model.verifyDuplicates(t);
+
+        // Si no existeix, afegir el poducte al carret,
+        if (!duplicate) Model.addToCart(t);
+            // Si es un que ja existeix (duplicat), avisar l'usuari
+        else System.out.printf("%s amb el codi de barres %s ja existeix! %n", t.getNom(), t.getBarcode());
     }
 
 }
