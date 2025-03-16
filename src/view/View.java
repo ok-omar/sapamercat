@@ -54,7 +54,7 @@ public class View {
         System.out.println("--- Carret ----------------------------------");
         System.out.println("---------------------------------------------");
         for (Map.Entry<String, Integer> producte :  cart.entrySet()){
-            System.out.println(producte.getKey() + " --> " + producte.getValue());
+            System.out.println(Model.getProductByBarcode(producte.getKey()) + " --> " + producte.getValue());
         }
         System.out.println("---------------------------------------------");
         System.out.println();
