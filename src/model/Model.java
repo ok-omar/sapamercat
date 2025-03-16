@@ -34,6 +34,10 @@ public class Model {
         cart.add(p);
     }
 
+    public static boolean cartLimitReached(){
+        return cart.size() >= MAX_PRODUCTES;
+    }
+
     public static ArrayList<Producte> getCart(){
         return cart;
     }
