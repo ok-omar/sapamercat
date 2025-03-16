@@ -1,6 +1,5 @@
 package view;
 import model.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,28 +73,31 @@ public class View {
         System.out.println("Data: " + LocalDate.now());
         System.out.println("---------------------------------------------");
 
-        // Ordenar productes perque surtin Alimentacio primer segon la data de caducitat, i despres l'altres productes
+        float total = 0;
+        Producte previousProducte = new Alimentacio(0, "", "", "");
+
+        // Ordena el carret
         List<Producte> sortedCart = cart.stream()
                 .sorted(new ProducteComparator())
                 .toList();
 
-        double total = 0;
-
         for (Producte producte : sortedCart) {
+            String barcode = producte.getBarcode();
+            int qt = hashmapCart.get(barcode);
             String nom = producte.getNom();
-            int qt = hashmapCart.getOrDefault(nom, 1);
-            double price = Model.getProductPrice(nom);
-            total += price * qt;
-
-            System.out.printf("Nom: %-20s %-2d %-10.2f %-10.2f%n",
-                    nom, qt, price, price * qt);
+            float preu = (float ) producte.calcularPreu();
+            if (producte.compareTo(previousProducte) != 0){
+                System.out.printf("%-20s %-2d %-10.2f %-10.2f%n", nom, qt, preu, preu * qt);
+                total += preu * qt;
+            }
+            previousProducte = producte;
         }
 
         System.out.println("---------------------------------------------");
         System.out.printf("Total:%10.2f%n", total);
-        System.out.println("---------------------------------------------");
-        System.out.println();
+        System.out.println("---------------------------------------------\n");
     }
+
 
 
     /**
@@ -106,20 +108,14 @@ public class View {
         System.out.println("---------------------------------------------");
         System.out.println("--- Caducitat -------------------------------");
         System.out.println("---------------------------------------------");
-        ArrayList<Producte> sortedCart = new ArrayList<>(cart);
-        sortedCart.sort(new ProducteComparator());
-        sortedCart.forEach(producte -> {
-            System.out.printf("Nom: %-20s", producte.getNom());
-            if (producte instanceof Alimentacio) System.out.printf("Caducitat: %-10s%n", ((Alimentacio) producte).getDataCaducitat());
-            else System.out.println();
-        });
-
         cart.stream()
-                .filter(producte -> producte instanceof Alimentacio)
-                .sorted(new ProducteComparator())
+                .filter(producte -> producte instanceof Alimentacio)  // Keep only Alimentacio
+                .sorted(new ProducteComparator())  // Sort using the ProducteComparator
                 .forEach(producte -> {
-                    Alimentacio a = (Alimentacio) producte;
-                    System.out.printf("Nom: %-20s Caducitat: %-10s%n", a.getNom(), a.getDataCaducitat());
+                        Alimentacio a = (Alimentacio) producte;
+                        // Print the product name and expiration date
+                        System.out.printf("Nom: %-20s Caducitat: %-10s%n", a.getNom(), a.getDataCaducitat());
+
                 });
     }
 
