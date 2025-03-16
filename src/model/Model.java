@@ -12,6 +12,7 @@ public class Model {
      * Funcio per convertir el carret a hashmap
      */
     public static void convertCartToHashmap(){
+
         for(Producte producte : cart){
             convertedCart.put(producte.getNom(), convertedCart.getOrDefault(producte.getNom(), 0) + 1);
         }
@@ -49,6 +50,19 @@ public class Model {
     public static Map<String, Integer> getHashmapCart(){
         return convertedCart;
     }
+
+    public static boolean verifyDuplicates(Producte t){
+        boolean duplicate = false;
+        for(Producte p : cart){
+            if (p.getBarcode().equals(t.getBarcode())) {
+                duplicate = true;
+                break;
+            }
+        }
+        return duplicate;
+
+    }
+
 
 
 }
